@@ -1,0 +1,91 @@
+devLevel:
+  rttmax: 25
+  pllmax: 1e-6
+
+VoIP:
+  norm: 10
+  priority: 2
+  balance: 0.25
+  rttmax: 100
+  pllmax: 1e-2
+  iface: enp0s3
+
+videoCall:
+  norm: 10
+  priority: 4
+  balance: 0.25
+  rttmax: 150
+  pllmax: 1e-3
+  iface: enp0s3
+
+onlineGame:
+  norm: 10
+  priority: 3
+  balance: 0.25
+  rttmax: 50
+  pllmax: 1e-3
+  iface: enp0s3
+
+videoStream:
+  norm: 10
+  priority: 5
+  balance: 0.25
+  rttmax: 300
+  pllmax: 1e-6
+  iface: enp0s3
+
+criticalPTT:
+  norm: 10
+  priority: 0.7
+  balance: 0.25
+  rttmax: 75
+  pllmax: 1e-2
+  iface: enp0s3
+
+nonCriticalPTT:
+  norm: 10
+  priority: 2
+  balance: 0.25
+  rttmax: 100
+  pllmax: 1e-2
+  iface: enp0s3
+
+IMS:
+  norm: 10
+  priority: 1
+  balance: 0.25
+  rttmax: 100
+  pllmax: 1e-6
+  iface: enp0s3
+
+TCPservices:
+  norm: 10
+  priority: 6
+  balance: 0.25
+  rttmax: 300
+  pllmax: 1e-6
+  iface: enp0s3
+
+interactive:
+  norm: 10
+  priority: 7
+  balance: 0.25
+  rttmax: 100
+  pllmax: 1e-3
+  iface: enp0s3
+
+delaySensitive:
+  norm: 10
+  priority: 0.5
+  balance: 0.25
+  rttmax: 60
+  pllmax: 1e-6
+  iface: enp0s3
+
+criticalData:
+  norm: 10
+  priority: 5.5
+  balance: 0.25
+  rttmax: 200
+  pllmax: 1e-6
+  iface: enp0s3

@@ -1,0 +1,27 @@
+monitor:
+  interval: 1
+  netinterfaces:
+    - enp0s3
+
+endpoint:
+  icmp_ping: 8.8.8.8
+  http_ping: http://www.konnekt.ikerlan.es
+
+export:
+  screen:
+    enabled: no
+  file:
+    enabled: yes
+    path: ./telemetry-data/telemetry-output
+  mqtt:
+    enabled: no 
+    hostname: emq.konnekt.ikerlan.es
+    port: 1883
+    username: dev
+    password:
+    topic: konnekt/v2/demo/telemetry
+    tls:
+      enabled: no
+      ca:
+      cert:
+      key:

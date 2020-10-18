@@ -1,0 +1,43 @@
+monitor:
+  interval: 1
+  netinterfaces:
+    - enp0s3
+
+costparams:
+  norm: 10
+
+import:
+  file:
+    enabled: yes
+    path: ./telemetry-data/telemetry-output
+  mqtt:
+    enabled: no
+    hostname: emq.konnekt.ikerlan.es
+    port: 1883
+    username: dev
+    password:
+    topic: konnekt/v2/demo/telemetry
+    tls:
+      enabled: no
+      ca:
+      cert:
+      key:
+
+export:
+  screen:
+    enabled: yes
+  file:
+    enabled: yes
+    path: ./commsCost-output
+  mqtt:
+    enabled: no
+    hostname: emq.konnekt.ikerlan.es
+    port: 1883
+    username: dev
+    password:
+    topic: konnekt/v2/demo/commsCost
+    tls:
+      enabled: no
+      ca:
+      cert:
+      key:

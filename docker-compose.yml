@@ -1,0 +1,30 @@
+#-------------------------------------------------------------#
+# - Docker Compose file for the KonnektBox Telemetry Daemon - #
+#-------------------------------------------------------------#
+
+
+version: '3'
+services:
+    telemetry:
+        build:
+            context: ./
+            dockerfile: ./DockerfileTelemetry
+        image: konnektbox-telemetry
+        container_name: telem
+        network_mode: "host"
+        volumes:
+            - telemetry-data:/telemetry-data/
+
+    commscost:
+        build:
+            context: ./
+            dockerfile: ./DockerfileCommsCost
+        image: nfr-comms
+        container_name: commscost
+        volumes:
+            - telemetry-data:/telemetry-data/
+        depends_on:
+            - telemetry
+
+volumes:
+    telemetry-data:
