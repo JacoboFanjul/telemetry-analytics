@@ -166,7 +166,7 @@ def main():
         config_path = params.config
     conf = {}
     conf = get_config(conf, config_path)
-    conf['isfirst'] = True
+#    conf['isfirst'] = True
 
     while True:
         conf = get_config(conf, config_path) # Refresh config each interval
