@@ -5,26 +5,31 @@
 
 version: '3'
 services:
-    telemetry:
-        build:
-            context: ./
-            dockerfile: ./DockerfileTelemetry
-        image: konnektbox-telemetry
-        container_name: telem
-        network_mode: "host"
-        volumes:
-            - telemetry-data:/telemetry-data/
+  InternalBroker:
+    image: eclipse-mosquitto:1.6.12
+    ports:
+      - "1883:1883"
+      - "8083:8083"
+    container_name: intBroker
+    hostname: intBroker
 
-    commscost:
-        build:
-            context: ./
-            dockerfile: ./DockerfileCommsCost
-        image: nfr-comms
-        container_name: commscost
-        volumes:
-            - telemetry-data:/telemetry-data/
-        depends_on:
-            - telemetry
+  telemetry:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: konnektbox-telemetry
+    container_name: telem
+    network_mode: "host"
+    hostname: telem
+    environment:
+      - MQTT_ID=telemetryELASTIC
+      - MQTT_HOST=localhost
+      - MQTT_PORT=1883
+      - MQTT_PROTOCOL="tcp"
+      - REST_PORT=8080
+      - MONITOR_PERIOD=2
+      - REPORT_PERIOD=10
+      - CATEGORIES={"Active":["CPU", "Disk", "Mem", "Net"]}
+      - PEER_LIST={"enp0s5":["8.8.4.4", "8.8.8.8"]}
+      # - PEER_LIST={"enp0s3":["localhost"]}
 
-volumes:
-    telemetry-data:

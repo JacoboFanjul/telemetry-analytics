@@ -1,9 +1,0 @@
-yolo:
-  pid: 1234
-  infoNature: videoStream
-  active: True
-
-crewcall:
-  pid: 5678
-  infoNature: VoIP
-  active: True

@@ -1,10 +1,11 @@
 FROM python:3.7-alpine
 
+WORKDIR /konnektbox-telemetry
+ENV PYTHONUNBUFFERED=1
+
 RUN apk update && apk upgrade && apk add --no-cache gcc musl-dev linux-headers
 COPY requirements.txt ./
 RUN python3 -m pip install -r requirements.txt
-#COPY commscost.py commscost-config.yml app-info.yml app-attr.yml ./
-COPY commscost.py ./
+COPY . .
 
-
-CMD ["python3", "-u", "./commscost.py"]
+ENTRYPOINT [ "python3", "app.py" ]
