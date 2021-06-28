@@ -20,6 +20,7 @@ class TimeInfo:
     def get(self):
         """ Gets Energy info """
 
+        self.dict['timestamp'] = time.time()
         self.dict['branch-misses'] = 'N/A'
         self.dict['cpu-cycles'] = 'N/A'
         self.dict['instructions'] = 'N/A'

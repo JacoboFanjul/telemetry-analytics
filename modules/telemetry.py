@@ -67,6 +67,7 @@ class Telemetry:
         while True:
             tic = time.time()
             with self._lock:
+                self.dict['timestamp'] = time.time()
                 try:
                     cats = json.loads(config.categories)
                     if 'Energy' in cats['Active']:

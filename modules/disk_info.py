@@ -35,5 +35,8 @@ class DiskInfo:
     def get_avg(self):
         """ Averages disk usage """
 
-        self.dict['avg_usage'] = sum(self.dict['usage'])/len(self.dict['usage'])
+        try:
+            self.dict['avg_usage'] = sum(self.dict['usage'])/len(self.dict['usage'])
+        except ZeroDivisionError as e:
+            config.logger.error("Math. error: {}".format(e))
         self.dict['usage'] = []

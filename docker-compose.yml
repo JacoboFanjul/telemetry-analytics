@@ -28,8 +28,33 @@ services:
       - MQTT_PROTOCOL="tcp"
       - REST_PORT=8080
       - MONITOR_PERIOD=2
-      - REPORT_PERIOD=10
+      - REPORT_PERIOD=2
       - CATEGORIES={"Active":["CPU", "Disk", "Mem", "Net"]}
-      - PEER_LIST={"enp0s5":["8.8.4.4", "8.8.8.8"]}
-      # - PEER_LIST={"enp0s3":["localhost"]}
+      - PEER_LIST={"enp0s3":["8.8.4.4", "8.8.8.8"]}
 
+  telegraf:
+    image: telegraf:1.18-alpine
+    volumes:
+    - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb
+
+  influxdb:
+    image: influxdb:1.8-alpine
+    ports:
+      - 8086:8086
+    volumes:
+      - influxdb:/var/lib/influxdb
+
+  grafana:
+    image: grafana/grafana:7.5.4
+    ports:
+      - 3000:3000
+    depends_on:
+      - influxdb
+    volumes:
+      - grafana:/var/lib/grafana
+
+volumes:
+  grafana:
+  influxdb:

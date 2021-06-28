@@ -20,6 +20,7 @@ class EnergyInfo:
     def get(self):
         """ Gets Energy info """
 
+        self.dict['timestamp'] = time.time()
         def get_from_path(path):
             ret = ''
             try:

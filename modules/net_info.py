@@ -2,7 +2,6 @@
 import os
 import re
 import json
-import math
 import time
 import socket
 import threading
@@ -121,10 +120,14 @@ class NetInfo:
 
                 for peer in peers[iface]:
                     if not self.dict[iface]['rtt_ms'][peer]:
-                        self.dict[iface]['rtt_avg'][peer] = math.inf
+                        self.dict[iface]['rtt_avg'][peer] = 5000
                     else:
-                        self.dict[iface]['rtt_avg'][peer] = sum(self.dict[iface]['rtt_ms'][peer]) /\
-                                                            len(self.dict[iface]['rtt_ms'][peer])
+                        try:
+                            self.dict[iface]['rtt_avg'][peer] = sum(self.dict[iface]['rtt_ms'][peer]) /\
+                                                                len(self.dict[iface]['rtt_ms'][peer])
+                        except ZeroDivisionError as e:
+                            config.logger.error("Math. error: {}".format(e))
+
                         self.dict[iface]['rtt_ms'][peer] = []
                         try:
                             with open("/proc/sys/net/core/rmem_max", 'r') as f:
