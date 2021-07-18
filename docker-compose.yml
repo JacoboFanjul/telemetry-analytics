@@ -5,42 +5,16 @@
 
 version: '3'
 services:
-  InternalBroker:
-    image: eclipse-mosquitto:1.6.12
-    ports:
-      - "1883:1883"
-      - "8083:8083"
-    container_name: intBroker
-    hostname: intBroker
-
-  telemetry:
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-    image: konnektbox-telemetry
-    container_name: telem
-    network_mode: "host"
-    hostname: telem
-    environment:
-      - MQTT_ID=telemetryELASTIC
-      - MQTT_HOST=localhost
-      - MQTT_PORT=1883
-      - MQTT_PROTOCOL="tcp"
-      - REST_PORT=8080
-      - MONITOR_PERIOD=2
-      - REPORT_PERIOD=2
-      - CATEGORIES={"Active":["CPU", "Disk", "Mem", "Net"]}
-      - PEER_LIST={"enp0s3":["8.8.4.4", "8.8.8.8"]}
-
   telegraf:
-    image: telegraf:1.18-alpine
+    image: telegraf:1.19.1
     volumes:
-    - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    - ./config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    - ./tegrastats-service/log/tegrastats:/var/log/tegrastats
     depends_on:
       - influxdb
 
   influxdb:
-    image: influxdb:1.8-alpine
+    image: influxdb:1.8.6
     ports:
       - 8086:8086
     volumes:
@@ -54,6 +28,7 @@ services:
       - influxdb
     volumes:
       - grafana:/var/lib/grafana
+      - ./dashboards:/etc/grafana/provisioning/dashboards/
 
 volumes:
   grafana:

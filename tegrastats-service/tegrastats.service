@@ -1,0 +1,14 @@
+[Unit]
+Description=Jetson advanced performance metrics
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=jetsonnanojj
+ExecStart=/home/jetsonnanojj/src/telemetry-analytics/tegrastats-service/tegrastats-custom.sh
+
+[Install]
+WantedBy=multi-user.target
