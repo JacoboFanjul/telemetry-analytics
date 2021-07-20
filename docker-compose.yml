@@ -27,9 +27,9 @@ services:
     depends_on:
       - influxdb
     volumes:
-      - grafana:/var/lib/grafana
-      - ./dashboards:/etc/grafana/provisioning/dashboards/
+      - ./grafana/config.ini:/etc/grafana/config.ini:ro
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
 
 volumes:
-  grafana:
   influxdb:
