@@ -1,6 +1,7 @@
 # Standard imports
 import os
 import re
+import sys
 import json
 import time
 import socket
@@ -120,7 +121,7 @@ class NetInfo:
 
                 for peer in peers[iface]:
                     if not self.dict[iface]['rtt_ms'][peer]:
-                        self.dict[iface]['rtt_avg'][peer] = 5000
+                        self.dict[iface]['rtt_avg'][peer] = sys.float_info.max
                     else:
                         try:
                             self.dict[iface]['rtt_avg'][peer] = sum(self.dict[iface]['rtt_ms'][peer]) /\

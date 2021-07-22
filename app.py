@@ -8,6 +8,7 @@ Copyright (C) 2020 IKERLAN S.Coop
 # Standard imports
 import sys
 import signal
+import time
 from threading import Event
 
 # Modules
@@ -41,7 +42,13 @@ def main():
     signal.signal(signal.SIGTERM, clean_up)
 
     while True:
-        Event().wait()
+        #Event().wait()
+        command = "tegrastats"
+        request = os.popen(command).read()
+        command = "tegrastats --stop"
+        os.system(command)
+        print(request)
+        time.sleep(config.monitor_period)
 
 
 if __name__ == "__main__":

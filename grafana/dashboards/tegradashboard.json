@@ -4,7 +4,7 @@
       {
         "$$hashKey": "object:7",
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": "telegraf",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",

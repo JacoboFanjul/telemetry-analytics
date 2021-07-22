@@ -12,6 +12,7 @@ from modules.cpu_info import CPUInfo
 from modules.disk_info import DiskInfo
 from modules.mem_info import MemInfo
 from modules.net_info import NetInfo
+from modules.tegra_info import TegraInfo
 
 # Config parameters and globals
 config = Config()
@@ -35,6 +36,7 @@ class Telemetry:
         self.disk_usage = DiskInfo()
         self.mem_info = MemInfo()
         self.net_info = NetInfo()
+        self.tegra_info = TegraInfo()
         self.avg_thread = threading.Thread(target=self.monitor_avg, daemon=True)
         self.mqtt_client = MqttClient()
         self._lock = threading.Lock()
@@ -55,6 +57,8 @@ class Telemetry:
                 self.mem_info.start()
             if 'Net' in cats['Active']:
                 self.net_info.start()
+            if config.tegrastats:
+                self.tegra_info.start()
         except (ValueError, KeyError) as ke:
             config.logger.error("Not valid category in config: {} ".format(ke), exc_info=True)
         time.sleep(config.report_period)
@@ -92,6 +96,8 @@ class Telemetry:
                         self.net_info.get_avg()
                         self.dict['net_info'] = self.net_info.dict
                         self.mqtt_client.send(json.dumps(self.net_info.dict), net_topic)
+                    if config.tegrastats:
+                        self.dict['tegra_info'] = self.tegra_info.dict
                 except (ValueError, KeyError) as ke:
                     config.logger.error("Not valid category in config: {} ".format(ke), exc_info=True)
 
