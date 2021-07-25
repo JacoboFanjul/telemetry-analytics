@@ -29,10 +29,10 @@ class TegraInfo:
         self.dict['RAM_available_MB'] = float(ram[1]) - float(ram[0]) if ram else None
 
         swap_raw = re.findall(r'SWAP ([0-9]*)\/([0-9]*)MB \(cached ([0-9]*)MB\)', line)
-        swap = swap_raw[0] if swap_raw else None
-        self.dict['swap_usage_MB'] = float(swap[0]) if swap else None
-        self.dict['swap_available_MB'] = float(swap[1]) - float(swap[0]) is swap else None
-        self.dict['swap_cached_MB'] = float(swap[2]) if swap else None
+        #swap = swap_raw[0] if swap_raw else None
+        #self.dict['swap_usage_MB'] = float(swap[0]) if swap else None
+        #self.dict['swap_available_MB'] = float(swap[1]) - float(swap[0]) is swap else None
+        #self.dict['swap_cached_MB'] = float(swap[2]) if swap else None
 
         iram_raw = re.findall(r'IRAM ([0-9]*)\/([0-9]*)kB \(lfb ([0-9]*)kB\)', line)
         iram = iram_raw[0] if iram_raw else None
@@ -79,7 +79,7 @@ class TegraInfo:
             self.dict[f'avg_{label}_power_consumption_mW'] = float(avg_vdd)
 
     def get(self):
-        command = "tegrastats"
+        command = "./tegrastats"
         request = os.popen(command).read()
         command = "tegrastats --stop"
         os.system(command)

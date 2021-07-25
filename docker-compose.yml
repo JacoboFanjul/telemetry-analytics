@@ -35,7 +35,6 @@ services:
       - IS_JETSON=True
 
 
-
         #  telegraf:
         #    image: telegraf:1.19.1
         #    volumes:

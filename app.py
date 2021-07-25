@@ -6,6 +6,7 @@ Copyright (C) 2020 IKERLAN S.Coop
 """
 
 # Standard imports
+import os
 import sys
 import signal
 import time
@@ -43,7 +44,7 @@ def main():
 
     while True:
         #Event().wait()
-        command = "tegrastats"
+        command = "./tegrastats"
         request = os.popen(command).read()
         command = "tegrastats --stop"
         os.system(command)
