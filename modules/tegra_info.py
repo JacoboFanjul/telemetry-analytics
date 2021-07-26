@@ -31,11 +31,14 @@ class TegraInfo:
 
         ram_raw = re.findall(r'RAM ([0-9]*)\/([0-9]*)MB \(lfb ([0-9]*)x([0-9]*)MB\)', line)
         ram = ram_raw[0] if ram_raw else None
+        config.logger.debug(ram)
         self.dict['RAM_usage_MB'] = float(ram[0]) if ram else None
         self.dict['RAM_available_MB'] = float(ram[1]) - float(ram[0]) if ram else None
 
         swap_raw = re.findall(r'SWAP ([0-9]*)\/([0-9]*)MB \(cached ([0-9]*)MB\)', line)
-        #swap = swap_raw[0] if swap_raw else None
+        config.logger.debug(swap_raw)
+        swap = swap_raw[0] if swap_raw else None
+        config.logger.debug(swap)
         #self.dict['swap_usage_MB'] = float(swap[0]) if swap else None
         #self.dict['swap_available_MB'] = float(swap[1]) - float(swap[0]) is swap else None
         #self.dict['swap_cached_MB'] = float(swap[2]) if swap else None
@@ -62,8 +65,8 @@ class TegraInfo:
 
         emc_raw = re.findall(r'EMC_FREQ ([0-9]*)%@?([0-9]*)?', line)
         emc = emc_raw[0] if emc_raw else None
-        self.dict['emc_usage_%'] = float(emc[0]) if emc else None
-        self.dict['emc_freq_MHz'] = float(emc[1]) if emc else ''
+        #self.dict['emc_usage_%'] = float(emc[0]) if emc else None
+        #self.dict['emc_freq_MHz'] = float(emc[1]) if emc else ''
 
         nvenc = re.findall(r'NVENC ([0-9]*)', line)
         self.dict['nvenc_freq_MHz'] = float(nvenc[0]) if nvenc else None
