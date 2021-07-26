@@ -25,7 +25,7 @@ class Config:
         # self.monitor_peers = getenv("PEER_LIST", "{{\"eth0\":[\"www.konnekt.ikerlan.es\"],"
         #                                      "\"wlan0\":[\"www.konnekt.ikerlan.es\"]}}")
         self.monitor_peers = getenv("PEER_LIST", "{\"enp0s3\":[\"8.8.4.4\", \"8.8.8.8\"]}")
-        self.tegrastats = getenv("IS_JETSON", "False")
+        self.tegrastats = bool(getenv("IS_JETSON", "False"))
         self.tegralog = getenv("TEGRA_LOG_FILE", "../tegrastats-service/log/tegrastats")
 
         # Configure logger

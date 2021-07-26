@@ -57,7 +57,7 @@ class Telemetry:
                 self.mem_info.start()
             if 'Net' in cats['Active']:
                 self.net_info.start()
-            if config.tegrastats:
+            if config.tegrastats is True:
                 self.tegra_info.start()
         except (ValueError, KeyError) as ke:
             config.logger.error("Not valid category in config: {} ".format(ke), exc_info=True)
@@ -96,7 +96,7 @@ class Telemetry:
                         self.net_info.get_avg()
                         self.dict['net_info'] = self.net_info.dict
                         self.mqtt_client.send(json.dumps(self.net_info.dict), net_topic)
-                    if config.tegrastats:
+                    if config.tegrastats is True:
                         self.dict['tegra_info'] = self.tegra_info.dict
                 except (ValueError, KeyError) as ke:
                     config.logger.error("Not valid category in config: {} ".format(ke), exc_info=True)

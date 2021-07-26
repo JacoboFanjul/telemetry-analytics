@@ -1,15 +1,13 @@
-"""KonnektBox Manager
+"""Telemetry Analytics
 
-Manages KonnektBox telemetry
+Manages and reports Edge platform telemetry
 
-Copyright (C) 2020 IKERLAN S.Coop
+Jacobo Fanjul, 2021
 """
 
 # Standard imports
-import os
 import sys
 import signal
-import time
 from threading import Event
 
 # Modules
@@ -24,13 +22,13 @@ telemetry = Telemetry()
 
 def main():
     """ Main app """
-    print('Launching KonnetkBox Telemetry Daemon')
+    print('Launching Telemetry Daemon')
 
     def clean_up(sig, frame):
         config.logger.info("Clean up done")
         telemetry.stop()
         sys.exit()
-
+    
     # Launch RestAPI
     rest_api = RestAPI()
     server = rest_api.get_server()
@@ -43,13 +41,7 @@ def main():
     signal.signal(signal.SIGTERM, clean_up)
 
     while True:
-        #Event().wait()
-        command = "./tegrastats"
-        request = os.popen(command).read()
-        command = "tegrastats --stop"
-        os.system(command)
-        print(request)
-        time.sleep(config.monitor_period)
+        Event().wait()
 
 
 if __name__ == "__main__":

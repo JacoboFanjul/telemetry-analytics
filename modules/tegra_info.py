@@ -13,12 +13,18 @@ from modules.config import Config
 config = Config()
 
 
+def tegrastop():
+    command = "sleep 0.1s && ./tegrastats --stop"
+    os.system(command)
+
+
 class TegraInfo:
     def __init__(self):
         self.dict = {'cpu_usage': []}
         self.monitor_thread = threading.Thread(target=self.monitor, daemon=True)
 
     def start(self):
+        print('Starting tegra_info daemon')
         self.monitor_thread.start()
 
     def parse(self, line):
@@ -79,10 +85,10 @@ class TegraInfo:
             self.dict[f'avg_{label}_power_consumption_mW'] = float(avg_vdd)
 
     def get(self):
-        command = "./tegrastats"
+        stop_th = threading.Thread(target=tegrastop, daemon=True)
+        stop_th.start()
+        command = "./tegrastats --interval 70"
         request = os.popen(command).read()
-        command = "tegrastats --stop"
-        os.system(command)
         self.parse(request) if request else config.logger.error('Tegrastats output could not be parsed')
 
     def monitor(self):
