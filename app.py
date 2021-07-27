@@ -14,13 +14,10 @@ from threading import Event
 from modules.config import Config
 from modules.rest_api import RestAPI
 from modules.telemetry import Telemetry
-from modules.tegra_info import TegraInfo
-import time
 
 # Config parameters and globals
 config = Config()
 telemetry = Telemetry()
-tegra_info = TegraInfo()
 
 
 def main():
@@ -45,10 +42,6 @@ def main():
 
     while True:
         Event().wait()
-        tic = time.time()
-        tegra_info.get()
-        elap_time = time.time() - tic
-        time.sleep(config.monitor_period - elap_time)
 
 
 if __name__ == "__main__":

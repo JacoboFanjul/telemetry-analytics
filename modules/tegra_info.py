@@ -31,17 +31,14 @@ class TegraInfo:
 
         ram_raw = re.findall(r'RAM ([0-9]*)\/([0-9]*)MB \(lfb ([0-9]*)x([0-9]*)MB\)', line)
         ram = ram_raw[0] if ram_raw else None
-        config.logger.debug(ram)
         self.dict['RAM_usage_MB'] = float(ram[0]) if ram else None
         self.dict['RAM_available_MB'] = float(ram[1]) - float(ram[0]) if ram else None
 
         swap_raw = re.findall(r'SWAP ([0-9]*)\/([0-9]*)MB \(cached ([0-9]*)MB\)', line)
-        config.logger.debug(swap_raw)
         swap = swap_raw[0] if swap_raw else None
-        config.logger.debug(swap)
-        #self.dict['swap_usage_MB'] = float(swap[0]) if swap else None
-        #self.dict['swap_available_MB'] = float(swap[1]) - float(swap[0]) is swap else None
-        #self.dict['swap_cached_MB'] = float(swap[2]) if swap else None
+        self.dict['swap_usage_MB'] = float(swap[0]) if swap else None
+        self.dict['swap_available_MB'] = float(swap[1]) - float(swap[0]) if swap else None
+        self.dict['swap_cached_MB'] = float(swap[2]) if swap else None
 
         iram_raw = re.findall(r'IRAM ([0-9]*)\/([0-9]*)kB \(lfb ([0-9]*)kB\)', line)
         iram = iram_raw[0] if iram_raw else None
@@ -52,8 +49,11 @@ class TegraInfo:
         cpus = cpus_raw[0] if cpus_raw else None
         frequency = re.findall(r'@([0-9]*)', cpus)
         self.dict['cpu_freq_MHz'] = float(frequency[0]) if frequency else ''
+        cpu_aux = 0
         for i, cpu in enumerate(cpus.split(',')):
-            self.dict[f'cpu_{i}_usage_%'] = cpu.split('%')[0]
+            self.dict[f'cpu_{i}_usage_%'] = float(cpu.split('%')[0])
+            cpu_aux += float(cpu.split('%')[0])
+        self.dict['cpu_usage_%'] = cpu_aux/float(i+1)
 
         ape = re.findall(r'APE ([0-9]*)', line)
         self.dict['ape_freq_MHz'] = float(ape[0]) if ape else None
@@ -90,7 +90,7 @@ class TegraInfo:
     def get(self):
         stop_th = threading.Thread(target=tegrastop, daemon=True)
         stop_th.start()
-        command = "./tegrastats --interval 70"
+        command = "./tegrastats --interval 50"
         request = os.popen(command).read()
         self.parse(request) if request else config.logger.error('Tegrastats output could not be parsed')
 

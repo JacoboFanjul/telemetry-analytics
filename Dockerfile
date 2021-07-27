@@ -1,9 +1,9 @@
-FROM nvcr.io/nvidia/l4t-base:r32.5.0
+FROM python:3.7-alpine
 
 WORKDIR /konnektbox-telemetry
 ENV PYTHONUNBUFFERED=1
 
-RUN apt-get update && apt-get install -y gcc python3-pip
+RUN apk update && apk upgrade && apk add --no-cache libc6-compat gcc musl-dev linux-headers
 COPY tegrastats requirements.txt ./
 RUN python3 -m pip install -r requirements.txt
 COPY . .
