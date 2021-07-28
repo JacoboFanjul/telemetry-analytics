@@ -20,7 +20,7 @@ def tegrastop():
 
 class TegraInfo:
     def __init__(self):
-        self.dict = {'cpu_usage': []}
+        self.dict = {}
         self.monitor_thread = threading.Thread(target=self.monitor, daemon=True)
 
     def start(self):
@@ -52,8 +52,8 @@ class TegraInfo:
         cpu_aux = 0
         for i, cpu in enumerate(cpus.split(',')):
             self.dict[f'cpu_{i}_usage_%'] = float(cpu.split('%')[0])
-            cpu_aux += float(cpu.split('%')[0])
-        self.dict['cpu_usage_%'] = cpu_aux/float(i+1)
+            cpu_aux += self.dict[f'cpu_{i}_usage_%']
+        self.dict['cpu_usage_%'] = float(cpu_aux)/float(i+1)
 
         ape = re.findall(r'APE ([0-9]*)', line)
         self.dict['ape_freq_MHz'] = float(ape[0]) if ape else None
