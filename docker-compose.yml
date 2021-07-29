@@ -28,8 +28,8 @@ services:
       - MQTT_PORT=1883
       - MQTT_PROTOCOL="tcp"
       - REST_PORT=8080
-      - MONITOR_PERIOD=2
-      - REPORT_PERIOD=2
+      - MONITOR_PERIOD=1
+      - REPORT_PERIOD=1
       - CATEGORIES={"Active":["Net"]}
       - PEER_LIST={"eth0":["8.8.8.8"]}
       - IS_JETSON=True
@@ -38,7 +38,7 @@ services:
   telegraf:
     image: telegraf:1.19.1
     volumes:
-    - ./config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on:
       - influxdb
 
@@ -56,7 +56,7 @@ services:
     depends_on:
       - influxdb
     volumes:
-      - ./grafana/config.ini:/etc/grafana/config.ini:ro
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
 
