@@ -19,14 +19,10 @@ class Config:
         self.mqtt_protocol = getenv("MQTT_PROTOCOL", "tcp")
         self.rest_port = int(getenv("REST_PORT", "8080"))
         self.monitor_period = int(getenv("MONITOR_PERIOD", "2"))
-        self.report_period = int(getenv("REPORT_PERIOD", "10"))
         self.categories = getenv("CATEGORIES", "{\"Active\":"
-                                               "[\"Time\", \"Energy\", \"CPU\", \"Disk\", \"Mem\", \"Net\"]}")
-        # self.monitor_peers = getenv("PEER_LIST", "{{\"eth0\":[\"www.konnekt.ikerlan.es\"],"
-        #                                      "\"wlan0\":[\"www.konnekt.ikerlan.es\"]}}")
-        self.monitor_peers = getenv("PEER_LIST", "{\"enp0s3\":[\"8.8.4.4\", \"8.8.8.8\"]}")
+                                               "[\"CPU\", \"Disk\", \"Mem\", \"Net\"]}")
+        self.rtt_server = getenv("RTT_SERVER", "8.8.8.8")
         self.tegrastats = bool(getenv("IS_JETSON", "False"))
-        self.tegralog = getenv("TEGRA_LOG_FILE", "../tegrastats-service/log/tegrastats")
 
         # Configure logger
         self.log_level = getenv("LOG_LEVEL", "DEBUG")

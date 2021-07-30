@@ -31,12 +31,3 @@ class DiskInfo:
             self.get()
             elap_time = time.time() - tic
             time.sleep(config.monitor_period-elap_time)
-
-    def get_avg(self):
-        """ Averages disk usage """
-
-        try:
-            self.dict['avg_usage'] = sum(self.dict['usage'])/len(self.dict['usage'])
-        except ZeroDivisionError as e:
-            config.logger.error("Math. error: {}".format(e))
-        self.dict['usage'] = []

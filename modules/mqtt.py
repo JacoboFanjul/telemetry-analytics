@@ -13,21 +13,9 @@ def on_connect(client, userdata, flags, ret):
     """ Connect Callback """
 
     if ret == 0:
-        client.subscribe(userdata.peers_topic)
-        config.logger.info(
-            "MQTT Client connected and subscribed to {} topic".format(
-                userdata.peers_topic
-            )
-        )
+        config.logger.info(f"MQTT Client connected to Broker at {client.endpoint[0]}:{client.endpoint[1]}")
     else:
-        config.logger.error("MQTT Connect Error st: {} flags: {}".format(ret, flags))
-
-
-def on_message(client, userdata, message):
-    """ Callback """
-
-    config.logger.info("MQTT message arrived: {}".format(message.payload))
-    config.monitor_peers = message.payload
+        config.logger.error(f"MQTT Connect Error st: {ret} flags: {flags}")
 
 
 def on_disconnect(client, userdata, rc):
@@ -40,21 +28,20 @@ class MqttClient:
     def __init__(self):
 
         # Set internal variables
-        box_id = config.id
+        device_id = config.id
         self.endpoint = (config.mqtt_broker, config.mqtt_port)
-        self.telemetry_topic = "konnekt/v3/service/konnektbox-telemetry"
-        self.peers_topic = "konnekt/v3/service/konnektbox-telemetry/peers"
+        self.telemetry_topic = f"jjsmarthome/v1/devices/{device_id}/telemetry"
 
         # Init Thread
         self.mqtt_thr = Thread(target=self.mqtt_thr_cbk)
         self.mqtt_thr.daemon = True
 
         # Init MQTT client
-        self.mqtt_cli = mqtt.Client(box_id)
+        self.mqtt_cli = mqtt.Client(device_id)
         self.mqtt_cli.on_message = on_message
         self.mqtt_cli.on_connect = on_connect
         self.mqtt_cli.on_disconnect = on_disconnect
-        self.mqtt_cli.username_pw_set(box_id, password="")
+        self.mqtt_cli.username_pw_set(device_id, password="")
         self.mqtt_cli.will_set(self.telemetry_topic, WILL, 1)
         self.mqtt_cli.user_data_set(self)
         self.connection_failed = False
@@ -88,10 +75,10 @@ class MqttClient:
 
         ret = self.mqtt_cli.publish(topic, data, DEF_QOS)
         if ret.rc == mqtt.MQTT_ERR_SUCCESS:
-            config.logger.debug("Msg {} sent to topic {}".format(data, topic))
+            config.logger.debug(f"Msg {data} sent to topic {topic}")
             return True
 
-        config.logger.debug("Msg {} could not be sent to topic {}".format(data, topic))
+        config.logger.debug(f"Msg {data} could not be sent to topic {topic}")
         return False
 
     def mqtt_thr_cbk(self):

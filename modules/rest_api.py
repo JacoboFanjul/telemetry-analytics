@@ -6,7 +6,7 @@ import time
 
 config = Config()
 
-SVC_HEADER = "/konnekt/v3"
+SVC_HEADER = "/jjsmarthome/v1"
 
 app = FastAPI()
 
@@ -23,13 +23,13 @@ class RestAPI:
         return Server(config=uvicorn_config)
 
 
-@app.get("{}/ping".format(SVC_HEADER))
+@app.get(f"{SVC_HEADER}/ping")
 def ping(response: Response):
     response.status_code = 200
     return "OK"
 
 
-@app.put("{}/config".format(SVC_HEADER))
+@app.put(f"{SVC_HEADER}/config")
 async def config_update(request: Request, response: Response):
     msg = await request.json()
     config.logger.debug(msg)
@@ -63,8 +63,8 @@ async def config_update(request: Request, response: Response):
             config.categories = conf['CATEGORIES']
             response.status_code = 200
             return "OK"
-        elif 'PEER_LIST' in conf:
-            config.monitor_peers = conf['PEER_LIST']
+        elif 'RTT_SERVER' in conf:
+            config.rtt_server = conf['RTT_SERVER']
             response.status_code = 200
             return "OK"
 
