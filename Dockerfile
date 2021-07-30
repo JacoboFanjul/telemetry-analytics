@@ -4,7 +4,7 @@ WORKDIR /konnektbox-telemetry
 ENV PYTHONUNBUFFERED=1
 
 RUN apk update && apk upgrade && apk add --no-cache libc6-compat gcc musl-dev linux-headers
-COPY tegrastats requirements.txt ./
+COPY requirements.txt ./
 RUN python3 -m pip install -r requirements.txt
 COPY . .
 
