@@ -21,6 +21,8 @@ class Config:
         self.monitor_period = int(getenv("MONITOR_PERIOD", "2"))
         self.categories = getenv("CATEGORIES", "{\"Active\":"
                                                "[\"CPU\", \"Disk\", \"Mem\", \"Net\"]}")
+        self.net_ifaces = getenv("NET_IFACES", "{\"Active\":"
+                                               "[\"eth0\"]}")
         self.rtt_server = getenv("RTT_SERVER", "8.8.8.8")
         self.tegrastats = bool(getenv("IS_JETSON", "False"))
 

@@ -13,7 +13,7 @@ def on_connect(client, userdata, flags, ret):
     """ Connect Callback """
 
     if ret == 0:
-        config.logger.info(f"MQTT Client connected to Broker at {client.endpoint[0]}:{client.endpoint[1]}")
+        config.logger.info(f"MQTT Client connected to Broker at {config.mqtt_broker}:{config.mqtt_port}")
     else:
         config.logger.error(f"MQTT Connect Error st: {ret} flags: {flags}")
 
@@ -38,7 +38,6 @@ class MqttClient:
 
         # Init MQTT client
         self.mqtt_cli = mqtt.Client(device_id)
-        self.mqtt_cli.on_message = on_message
         self.mqtt_cli.on_connect = on_connect
         self.mqtt_cli.on_disconnect = on_disconnect
         self.mqtt_cli.username_pw_set(device_id, password="")

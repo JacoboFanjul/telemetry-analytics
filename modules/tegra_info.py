@@ -14,7 +14,7 @@ config = Config()
 
 
 def tegrastop():
-    command = "sleep 0.1s && ./tegrastats --stop"
+    command = "sleep 0.1s && ./modules/tegrastats --stop"
     os.system(command)
 
 
@@ -42,7 +42,7 @@ class TegraInfo:
 
         iram_raw = re.findall(r'IRAM ([0-9]*)\/([0-9]*)kB \(lfb ([0-9]*)kB\)', line)
         iram = iram_raw[0] if iram_raw else None
-        self.dict['IRAM_usarge_kB'] = float(iram[0]) if iram else None
+        self.dict['IRAM_usage_kB'] = float(iram[0]) if iram else None
         self.dict['IRAM_available_kB'] = float(iram[1]) - float(iram[0]) if iram else None
 
         cpus_raw = re.findall(r'CPU \[(.*)\]', line)
@@ -90,7 +90,7 @@ class TegraInfo:
     def get(self):
         stop_th = threading.Thread(target=tegrastop, daemon=True)
         stop_th.start()
-        command = "./tegrastats --interval 50"
+        command = "./modules/tegrastats --interval 50"
         request = os.popen(command).read()
         self.parse(request) if request else config.logger.error('Tegrastats output could not be parsed')
 

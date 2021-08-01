@@ -63,6 +63,10 @@ async def config_update(request: Request, response: Response):
             config.categories = conf['CATEGORIES']
             response.status_code = 200
             return "OK"
+        elif 'NET_IFACES' in conf:
+            config.net_ifaces = conf['NET_IFACES']
+            response.status_code = 200
+            return "OK"
         elif 'RTT_SERVER' in conf:
             config.rtt_server = conf['RTT_SERVER']
             response.status_code = 200

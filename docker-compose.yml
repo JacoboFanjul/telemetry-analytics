@@ -11,7 +11,7 @@ services:
       - "1883:1883"
       - "8083:8083"
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
 
 
   telemetry:
@@ -19,46 +19,48 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     image: telemetry-analytics
-    container_name: telem
+    container_name: telemetry
     network_mode: "host"
-    hostname: telem
+    hostname: telemetry
     environment:
       - MQTT_ID=telemetry
       - MQTT_HOST=localhost
       - MQTT_PORT=1883
       - MQTT_PROTOCOL="tcp"
       - REST_PORT=8080
-      - MONITOR_PERIOD=1
-      - REPORT_PERIOD=1
-      - CATEGORIES={"Active":["Net"]}
-      - PEER_LIST={"eth0":["8.8.8.8"]}
+      - MONITOR_PERIOD=2
+      - CATEGORIES={"Active":["CPU", "Disk", "Mem", "Net"]}
+      - NET_IFACES={"Active":["eth0"]}
+      - RTT_SERVER="8.8.8.8"
       - IS_JETSON=True
-
-
-  telegraf:
-    image: telegraf:1.19.1
-    volumes:
-    - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on:
-      - influxdb
+      - internalBroker
 
-  influxdb:
-    image: influxdb:1.8.6
-    ports:
-      - 8086:8086
-    volumes:
-      - influxdb:/var/lib/influxdb
 
-  grafana:
-    image: grafana/grafana:7.5.4
-    ports:
-      - 3000:3000
-    depends_on:
-      - influxdb
-    volumes:
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
-
-volumes:
-  influxdb:
+        #  telegraf:
+        #    image: telegraf:1.19.1
+        #    volumes:
+        #    - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+        #    depends_on:
+        #      - influxdb
+        #
+        #  influxdb:
+        #    image: influxdb:1.8.6
+        #    ports:
+        #      - 8086:8086
+        #    volumes:
+        #      - influxdb:/var/lib/influxdb
+        #
+        #  grafana:
+        #    image: grafana/grafana:7.5.4
+        #    ports:
+        #      - 3000:3000
+        #    depends_on:
+        #      - influxdb
+        #    volumes:
+        #      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+        #      - ./grafana/provisioning:/etc/grafana/provisioning
+        #      - ./grafana/dashboards:/var/lib/grafana/dashboards
+        #
+        #volumes:
+        #  influxdb:

@@ -29,8 +29,11 @@ class NetInfo:
 
         pll_stats = psutil.net_io_counters(pernic=True)
         pernic_addr = psutil.net_if_addrs()
+        net_ifaces = json.loads(config.net_ifaces)
+        print(pernic_addr.keys())
+        print(net_ifaces['Active'])
 
-        for iface in pernic_addr.keys():
+        for iface in pernic_addr.keys() & net_ifaces['Active']:
             if iface not in self.dict.keys():
                 self.dict[iface] = {}
             if 'rtt_ms' not in self.dict[iface]:
@@ -73,7 +76,7 @@ class NetInfo:
                 except IOError as e:
                     raise ReadError(e.strerror, e.filename)
                 self.dict[iface]['throughput_avg'] = (min(rmem_max, tcp_rmem_max) / 1000000) / \
-                    (self.dict[iface]['rtt'] / 1000)
+                    (self.dict[iface]['rtt_ms'] / 1000) if rtt is not None else None
 
             except psutil.Error as exc:
                 config.logger.error("Error reading interface {}: {}".format(iface, exc))
