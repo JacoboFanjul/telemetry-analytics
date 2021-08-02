@@ -15,7 +15,7 @@ config = Config()
 
 class CPUInfo:
     def __init__(self):
-        self.dict = {'usage': []}
+        self.dict = {}
         self.monitor_thread = threading.Thread(target=self.monitor, daemon=True)
 
     def start(self):
@@ -31,7 +31,7 @@ class CPUInfo:
         self.dict['cores_logical'] = psutil.cpu_count()
 
         # Get cpu usage in percentage:
-        self.dict['usage'].append(psutil.cpu_percent())
+        self.dict['usage'] = psutil.cpu_percent()
         self.dict['freq'] = psutil.cpu_freq()
 
     def monitor(self):

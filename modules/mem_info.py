@@ -14,8 +14,7 @@ config = Config()
 
 class MemInfo:
     def __init__(self):
-        self.dict = {'available_MB': [],
-                     'usage_MB': []}
+        self.dict = {}
         self.monitor_thread = threading.Thread(target=self.monitor, daemon=True)
 
     def start(self):
@@ -25,8 +24,8 @@ class MemInfo:
         """ Get mem usage and availability """
 
         mem_attr = psutil.virtual_memory()
-        self.dict['available_MB'].append(mem_attr.available / 1000000)
-        self.dict['usage_MB'].append(mem_attr.used / 1000000)
+        self.dict['available_MB'] = mem_attr.available / 1000000
+        self.dict['usage_MB'] = mem_attr.used / 1000000
 
     def monitor(self):
         while True:

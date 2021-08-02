@@ -14,7 +14,7 @@ config = Config()
 
 class DiskInfo:
     def __init__(self):
-        self.dict = {'usage': []}
+        self.dict = {}
         self.monitor_thread = threading.Thread(target=self.monitor, daemon=True)
 
     def start(self):
@@ -23,7 +23,7 @@ class DiskInfo:
     def get(self):
         """ Gets Disk usage """
 
-        self.dict['usage'].append(psutil.disk_usage('/')[3])
+        self.dict['usage'] = psutil.disk_usage('/')[3]
 
     def monitor(self):
         while True:
