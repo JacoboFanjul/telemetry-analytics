@@ -90,7 +90,7 @@ class TegraInfo:
     def get(self):
         stop_th = threading.Thread(target=tegrastop, daemon=True)
         stop_th.start()
-        command = "./modules/tegrastats --interval 50"
+        command = "./modules/tegrastats --interval 30"
         request = os.popen(command).read()
         self.parse(request) if request else config.logger.error('Tegrastats output could not be parsed')
 
