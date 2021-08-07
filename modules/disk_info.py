@@ -23,7 +23,7 @@ class DiskInfo:
     def get(self):
         """ Gets Disk usage """
 
-        self.dict['usage'] = psutil.disk_usage('/')[3]
+        self.dict['usage'] = psutil.disk_usage('/')[1]
 
     def monitor(self):
         while True:

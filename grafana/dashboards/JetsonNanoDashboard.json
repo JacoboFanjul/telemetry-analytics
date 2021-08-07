@@ -961,7 +961,7 @@
             "mode": "continuous-BlYlRd"
           },
           "mappings": [],
-          "max": 65536,
+          "max": 64000000000,
           "min": 0,
           "thresholds": {
             "mode": "percentage",
@@ -976,7 +976,7 @@
               }
             ]
           },
-          "unit": "decmbytes"
+          "unit": "decbytes"
         },
         "overrides": []
       },
