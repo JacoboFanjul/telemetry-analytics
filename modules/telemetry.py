@@ -24,7 +24,7 @@ class Telemetry:
         self.mem_info = MemInfo()
         self.net_info = NetInfo()
         self.tegra_info = TegraInfo()
-        self.avg_thread = threading.Thread(target=self.monitor_avg, daemon=True)
+        self.report_thread = threading.Thread(target=self.report, daemon=True)
         self.mqtt_client = MqttClient()
         self._lock = threading.Lock()
 
@@ -40,17 +40,17 @@ class Telemetry:
                 self.mem_info.start()
             if 'Net' in cats['Active']:
                 self.net_info.start()
-            if config.tegrastats is True:
+            if 'Tegra' in cats['Active']:
                 self.tegra_info.start()
         except (ValueError, KeyError) as ke:
             config.logger.error("Not valid category in config: {} ".format(ke), exc_info=True)
         time.sleep(config.monitor_period)
-        self.avg_thread.start()
+        self.report_thread.start()
 
     def stop(self):
         self.mqtt_client.stop()
 
-    def monitor_avg(self):
+    def report(self):
         while True:
             tic = time.time()
             with self._lock:
@@ -65,7 +65,7 @@ class Telemetry:
                         self.dict['mem_info'] = self.mem_info.dict
                     if 'Net' in cats['Active']:
                         self.dict['net_info'] = self.net_info.dict
-                    if config.tegrastats is True:
+                    if 'Tegra' in cats['Active']:
                         self.dict['tegra_info'] = self.tegra_info.dict
                 except (ValueError, KeyError) as ke:
                     config.logger.error("Not valid category in config: {} ".format(ke), exc_info=True)

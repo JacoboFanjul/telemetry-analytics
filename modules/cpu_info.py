@@ -26,7 +26,12 @@ class CPUInfo:
 
         # Information to be provided at monitoring start up only:
         # CPU model info. TODO: Only first iteration
-        self.dict['model'] = cputil.get_cpu_info()['brand']
+        cputil_info = cputil.get_cpu_info()
+        if cputil_info['cpuinfo_version'][0] <= 5:
+            self.dict['model'] = cputil_info['brand']
+        else:
+            self.dict['model'] = cputil_info['brand_raw']
+
         self.dict['cores_physical'] = psutil.cpu_count(logical=False)
         self.dict['cores_logical'] = psutil.cpu_count()
 

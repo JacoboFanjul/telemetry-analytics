@@ -23,7 +23,8 @@ class DiskInfo:
     def get(self):
         """ Gets Disk usage """
 
-        self.dict['usage'] = psutil.disk_usage('/')[1]
+        self.dict['available_MB'] = psutil.disk_usage('/')[2] / 1000000
+        self.dict['usage_MB'] = psutil.disk_usage('/')[1] / 1000000
 
     def monitor(self):
         while True:

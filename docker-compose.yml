@@ -29,10 +29,9 @@ services:
       - MQTT_PROTOCOL="tcp"
       - REST_PORT=8080
       - MONITOR_PERIOD=2
-      - CATEGORIES={"Active":["CPU", "Disk", "Mem", "Net"]}
-      - NET_IFACES={"Active":["eth0"]}
+      - CATEGORIES={"Active":["CPU", "Disk", "Mem"]}
+      - NET_IFACES={"Active":["enp0s3"]}
       - RTT_SERVER="8.8.8.8"
-      - IS_JETSON=True
     depends_on:
       - internalBroker
 

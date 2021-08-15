@@ -961,7 +961,7 @@
             "mode": "continuous-BlYlRd"
           },
           "mappings": [],
-          "max": 64000000000,
+          "max": 64000,
           "min": 0,
           "thresholds": {
             "mode": "percentage",
@@ -976,7 +976,7 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decmbytes"
         },
         "overrides": []
       },
@@ -1028,7 +1028,7 @@
             [
               {
                 "params": [
-                  "disk_info_usage"
+                  "disk_info_usage_MB"
                 ],
                 "type": "field"
               },

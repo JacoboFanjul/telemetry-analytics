@@ -20,11 +20,10 @@ class Config:
         self.rest_port = int(getenv("REST_PORT", "8080"))
         self.monitor_period = int(getenv("MONITOR_PERIOD", "2"))
         self.categories = getenv("CATEGORIES", "{\"Active\":"
-                                               "[\"CPU\", \"Disk\", \"Mem\", \"Net\"]}")
+                                               "[\"CPU\", \"Disk\", \"Mem\", \"Net\", \"Tegra\"]}")
         self.net_ifaces = getenv("NET_IFACES", "{\"Active\":"
                                                "[\"eth0\"]}")
         self.rtt_server = getenv("RTT_SERVER", "8.8.8.8")
-        self.tegrastats = bool(getenv("IS_JETSON", "False"))
 
         # Configure logger
         self.log_level = getenv("LOG_LEVEL", "DEBUG")

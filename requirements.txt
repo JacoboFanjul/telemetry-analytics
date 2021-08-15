@@ -2,4 +2,4 @@ psutil
 uvicorn
 fastapi
 paho-mqtt
-py-cpuinfo==5.0.0
+py-cpuinfo
