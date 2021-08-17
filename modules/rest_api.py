@@ -55,10 +55,6 @@ async def config_update(request: Request, response: Response):
             config.monitor_period = conf['MONITOR_PERIOD']
             response.status_code = 200
             return "OK"
-        elif 'REPORT_PERIOD' in conf:
-            config.report_period = conf['REPORT_PERIOD']
-            response.status_code = 200
-            return "OK"
         elif 'CATEGORIES' in conf:
             config.categories = conf['CATEGORIES']
             response.status_code = 200

@@ -24,8 +24,6 @@ class NetInfo:
         self.monitor_thread.start()
 
     def get(self):
-        """ Gets information from network interfaces """
-
         pll_stats = psutil.net_io_counters(pernic=True)
         pernic_addr = psutil.net_if_addrs()
         net_ifaces = json.loads(config.net_ifaces)

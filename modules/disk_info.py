@@ -21,8 +21,6 @@ class DiskInfo:
         self.monitor_thread.start()
 
     def get(self):
-        """ Gets Disk usage """
-
         self.dict['available_MB'] = psutil.disk_usage('/')[2] / 1000000
         self.dict['usage_MB'] = psutil.disk_usage('/')[1] / 1000000
 

@@ -21,8 +21,6 @@ class MemInfo:
         self.monitor_thread.start()
 
     def get(self):
-        """ Get mem usage and availability """
-
         mem_attr = psutil.virtual_memory()
         self.dict['available_MB'] = mem_attr.available / 1000000
         self.dict['usage_MB'] = mem_attr.used / 1000000

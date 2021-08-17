@@ -22,7 +22,7 @@ telemetry = Telemetry()
 
 def main():
     """ Main app """
-    print('Launching Telemetry Daemon')
+    config.logger.info('Launching Telemetry Daemon')
 
     def clean_up(sig, frame):
         config.logger.info("Clean up done")
