@@ -28,6 +28,7 @@ class NetInfo:
         pernic_addr = psutil.net_if_addrs()
         net_ifaces = json.loads(config.net_ifaces)
 
+        min_rtt_ms = []
         for iface in pernic_addr.keys() & net_ifaces['Active']:
             if iface not in self.dict.keys():
                 self.dict[iface] = {}
@@ -53,10 +54,13 @@ class NetInfo:
                 self.dict[iface]['tx_lost_packets'] = pll_stats[iface].dropout
 
                 self.get_rtt(iface)
+                min_rtt_ms.append(self.dict[iface]['rtt_ms'])
                 self.get_throughput(iface, self.dict[iface]['rtt_ms'])
 
             except psutil.Error as exc:
                 config.logger.error("Error reading interface {}: {}".format(iface, exc))
+
+        self.dict['avg_rtt_ms'] = min(avg_rtt_ms) if avg_rtt_ms else None
 
     def get_rtt(self, net_iface):
         command = f"ping -c 1 -w 1 -W 1 -I {net_iface} {config.rtt_server}"

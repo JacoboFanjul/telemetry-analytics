@@ -1,6 +1,6 @@
 FROM python:3.7-alpine
 
-WORKDIR /konnektbox-telemetry
+WORKDIR /telemetry-analytics
 ENV PYTHONUNBUFFERED=1
 
 RUN apk update && apk upgrade && apk add --no-cache libc6-compat gcc musl-dev linux-headers
